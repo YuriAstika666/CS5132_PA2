@@ -1,3 +1,5 @@
+package PA2A;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,10 +9,10 @@ import java.util.Scanner;
 public class PriorityFix {
     public static void main(String[] args) {
         System.out.println("---/ example.in \\---");
-        System.out.println("Result: " + Arrays.toString(videoSequence("src/inputs/example.in")));
+        System.out.println("Result: " + Arrays.toString(videoSequence("src/PA2A/inputs/example.in")));
 
         System.out.println("\n---/ test1.in \\---");
-        System.out.println("Result: " + Arrays.toString(videoSequence("src/inputs/test1.in")));
+        System.out.println("Result: " + Arrays.toString(videoSequence("src/PA2A/inputs/test1.in")));
     }
 
     public static int[] videoSequence(String filename){

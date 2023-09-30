@@ -1,3 +1,5 @@
+package PA2A;
+
 public class DatePriority implements Comparable<DatePriority> {
     private int year;
     private int month;

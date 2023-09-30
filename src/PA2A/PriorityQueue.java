@@ -1,3 +1,5 @@
+package PA2A;
+
 public class PriorityQueue<T,S extends Comparable<S>> {
     Node<T,S>[] queue;
     int count;

@@ -1,3 +1,5 @@
+package PA2A;
+
 public class Node<T,S extends Comparable<S>> {
     private T data;
     private S priority;
