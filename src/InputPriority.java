@@ -1,10 +1,8 @@
 public class InputPriority implements Comparable<InputPriority>{
-    private Lift lift;
-    private Input input;
     private int priorityValue;
 
-    public InputPriority(Lift lift, Input input){
-        this.priorityValue = calculatePriority(lift,input);
+    public InputPriority(Lift lift, Input input, int moving, int stopping){
+        this.priorityValue = calculatePriority(lift,input,moving,stopping);
     }
 
     public int getPriorityValue() {
@@ -18,7 +16,7 @@ public class InputPriority implements Comparable<InputPriority>{
         else {return 1;}
     }
 
-    public static int calculatePriority(Lift l, Input i){
+    public static int calculatePriority(Lift l, Input i, int moving, int stopping){
         int inputFloor = i.getRelatedFloor();
         int liftCurrentFloor = l.getCurrentFloor();
         int liftTargetFloor = l.getTarget();
@@ -32,31 +30,31 @@ public class InputPriority implements Comparable<InputPriority>{
                if (f.getDirection() == l.getDirection()){
                    if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0){
                        if ((inputFloor - liftTargetFloor) + l.getTarget() > 0){
-                           value = Math.abs(liftCurrentFloor - liftTargetFloor) * 5 + 3 + Math.abs(liftTargetFloor - inputFloor);
+                           value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + stopping + Math.abs(liftTargetFloor - inputFloor) * moving;
                        } else {
-                           value = Math.abs(liftCurrentFloor - inputFloor) * 5;
+                           value = Math.abs(liftCurrentFloor - inputFloor) * moving;
                        }
                        value = value * 2 + 1;
                    } else {
-                       value += (Math.abs(liftCurrentFloor - liftTargetFloor) * 5 + 3 + Math.abs(liftTargetFloor - inputFloor)) * 2;
+                       value += (Math.abs(liftCurrentFloor - liftTargetFloor) * moving + stopping + Math.abs(liftTargetFloor - inputFloor) * moving) * 2;
                    }
                } else {
-                   value = (Math.abs(liftCurrentFloor - liftTargetFloor) * 5 + 3 + Math.abs(liftTargetFloor - inputFloor)) * 2;
+                   value = (Math.abs(liftCurrentFloor - liftTargetFloor) * moving + stopping + Math.abs(liftTargetFloor - inputFloor) * moving) * 2;
                }
             } else {
                 if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0){
                     if ((inputFloor - liftTargetFloor) + l.getTarget() > 0){
-                        value = Math.abs(liftCurrentFloor - liftTargetFloor) * 5 + 3 + Math.abs(liftTargetFloor - inputFloor);
+                        value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + stopping + Math.abs(liftTargetFloor - inputFloor) * moving;
                     } else {
-                        value = Math.abs(liftCurrentFloor - inputFloor) * 5;
+                        value = Math.abs(liftCurrentFloor - inputFloor) * moving;
                     }
                 } else {
-                    value = Math.abs(liftCurrentFloor - liftTargetFloor) * 5 + 3 + Math.abs(liftTargetFloor - inputFloor);
+                    value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + stopping + Math.abs(liftTargetFloor - inputFloor) * moving;
                 }
                 value = value * 2 + 1;
             }
         } else {
-            value += Math.abs(liftCurrentFloor - inputFloor) * 5;
+            value += Math.abs(liftCurrentFloor - inputFloor) * moving;
             if (i instanceof FloorInput){
                 value = value*2 + 1;
             } else {

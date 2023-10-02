@@ -5,14 +5,14 @@ public class Lift {
     private boolean moving;
     private int direction; // -1 = down, 0 = stay, 1 = up
     private int target;
-    private PriorityQueue<Input, InputPriority> inputPriorityQueue;
+    private WaitingPriorityQueue<Input, InputPriority> inputPriorityQueue;
 
     public Lift(){
         currentFloor = 1;
         moving = false;
         direction = 0;
         target = 1;
-        inputPriorityQueue = new PriorityQueue<>(true);
+        inputPriorityQueue = new WaitingPriorityQueue<>(false);
     }
 
     public int getCurrentFloor(){return currentFloor;}

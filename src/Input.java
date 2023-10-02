@@ -10,5 +10,11 @@ public class Input {
     public int getRelatedFloor() {return relatedFloor;}
     public boolean isTriggered() {return triggered;}
 
+    public void trigger(){
+        triggered = true;
+    }
 
+    public void fulfilled(){
+        triggered = false;
+    }
 }

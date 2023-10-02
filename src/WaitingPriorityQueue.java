@@ -1,8 +1,6 @@
 import PA2A.Node;
 import PA2A.PriorityQueue;
 
-import java.util.Arrays;
-
 public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQueue<T,S> {
     Node<T,S>[] queue;
     int count;

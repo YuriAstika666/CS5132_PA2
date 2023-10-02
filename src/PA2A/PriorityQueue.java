@@ -14,7 +14,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
     public int getCount() {return count;}
     public Node<T,S>[] getQueue(){return queue;}
 
-    public void enqueue(T data, S priority){
+    public Node<T,S> enqueue(T data, S priority){
         Node<T,S> node = new Node<>(data, priority);
         if (queue.length == count){enlargeQueue(queue);}
         queue[count] = node;
@@ -28,6 +28,8 @@ public class PriorityQueue<T,S extends Comparable<S>> {
                 curr = parent;
             } else {break;}
         }
+        node.setIndexInQueue(curr);
+        return node;
     }
 
     public Node<T,S> peek(){
@@ -72,7 +74,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
             break;
         }
         count--;
-        if (count == queue.length/4){shirnkQueue(queue);}
+        if (queue.length > 4 && count == queue.length/4){shirnkQueue(queue);}
         return temp;
     }
 
@@ -82,6 +84,8 @@ public class PriorityQueue<T,S extends Comparable<S>> {
                 Node<T,S> temp = queue[a];
                 queue[a] = queue[b];
                 queue[b] = temp;
+                queue[a].setIndexInQueue(a);
+                queue[b].setIndexInQueue(b);
             }
         } else {throw new IndexOutOfBoundsException();}
     }
