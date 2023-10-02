@@ -1,9 +1,9 @@
 package PA2A;
 
 public class PriorityQueue<T,S extends Comparable<S>> {
-    Node<T,S>[] queue;
-    int count;
-    int heapDirection;
+    private Node<T,S>[] queue;
+    private int count;
+    private int heapDirection;
 
     public PriorityQueue(boolean maxHeap){
         queue = new Node[4];
@@ -39,6 +39,8 @@ public class PriorityQueue<T,S extends Comparable<S>> {
     public Node<T,S> dequeue(){
         Node<T,S> temp = queue[0];
         queue[0] = queue[count-1];
+        queue[0].setIndexInQueue(0);
+        queue[count-1] = null;
         int curr = 0;
         while(true){
             int leftChild = getLeftChild(curr);

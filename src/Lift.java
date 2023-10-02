@@ -1,3 +1,4 @@
+import PA2A.Node;
 import PA2A.PriorityQueue;
 
 public class Lift {
@@ -22,6 +23,14 @@ public class Lift {
 
     public Input getNextInput(){
         return inputPriorityQueue.peek().getData();
+    }
+
+    public void addInput(Input input, int moving, int waiting){
+        Node<Input, InputPriority> temp =  inputPriorityQueue.enqueue(input,new InputPriority(this,input,moving,waiting));
+    }
+
+    public void move(){
+        currentFloor += direction;
     }
 
 

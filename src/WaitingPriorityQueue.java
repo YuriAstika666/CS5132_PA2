@@ -2,9 +2,9 @@ import PA2A.Node;
 import PA2A.PriorityQueue;
 
 public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQueue<T,S> {
-    Node<T,S>[] queue;
-    int count;
-    int heapDirection;
+    private Node<T,S>[] queue;
+    private int count;
+    private int heapDirection;
 
     public WaitingPriorityQueue(boolean maxHeap){
         super(maxHeap);
@@ -19,6 +19,8 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         }
         Node<T,S> temp = queue[index];
         queue[index] = queue[count-1];
+        queue[index].setIndexInQueue(index);
+        queue[count-1] = null;
         int curr = index;
         while(true){
             int leftChild = getLeftChild(curr);
@@ -82,6 +84,9 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
                     Node<T, S> temp = queue[ref];
                     queue[ref] = queue[compare];
                     queue[compare] = temp;
+
+                    queue[ref].setIndexInQueue(ref);
+                    queue[compare].setIndexInQueue(compare);
 
                     ref = compare;
                 } else {

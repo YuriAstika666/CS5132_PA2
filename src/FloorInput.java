@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class FloorInput extends Input{
-    private int direction; //-1 for down, 1 for up, 0 when no direction
+    private final int direction; //-1 for down, 1 for up, 0 when no direction
     private InputPriority[] priorities;
     private int[] liftQueueIndexes;
 
@@ -18,13 +18,18 @@ public class FloorInput extends Input{
     public InputPriority[] getPriorities() {return priorities;}
     public int[] getLiftQueueIndexes() {return liftQueueIndexes;}
 
-    public int trigger(int direction, int[] indexes, InputPriority[] priorities){
+    public int trigger(int[] indexes, InputPriority[] priorities){
         super.trigger();
-        this.direction = direction;
         liftQueueIndexes = indexes;
         this.priorities = priorities;
 
         return chooseLift();
+    }
+
+    public void fulfilled(){
+        super.fulfilled();
+        priorities = null;
+        liftQueueIndexes = null;
     }
 
     public int chooseLift(){
