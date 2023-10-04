@@ -5,6 +5,10 @@ public class InputPriority implements Comparable<InputPriority>{
         this.priorityValue = calculatePriority(lift,input,moving,waiting);
     }
 
+    public InputPriority(int priorityValue){
+        this.priorityValue = priorityValue;
+    }
+
     public int getPriorityValue() {
         return priorityValue;
     }
@@ -24,7 +28,7 @@ public class InputPriority implements Comparable<InputPriority>{
             return 0;
         }
         int value = 0;
-        if (l.isMoving()){
+        if (l.isInMotion()){
             if (i instanceof FloorInput){
                FloorInput f = (FloorInput) i;
                if (f.getDirection() == l.getDirection()){

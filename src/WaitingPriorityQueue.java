@@ -13,11 +13,19 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         heapDirection = (maxHeap) ? 1 : -1;
     }
 
+    public WaitingPriorityQueue(Node<T,S>[] queue, int count, int heapDirection){
+        this(heapDirection == 1);
+        this.queue = queue;
+        this.count = count;
+        this.heapDirection = heapDirection;
+    }
+
+    public WaitingPriorityQueue(WaitingPriorityQueue<T,S> queue){
+        this(queue.queue,queue.count,queue.heapDirection);
+    }
+
     public Node<T,S> remove(int index){
-        if (index >= count || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        Node<T,S> temp = queue[index];
+        Node<T,S> temp = getNodeByArrayIndex(index);
         queue[index] = queue[count-1];
         queue[index].setIndexInQueue(index);
         queue[count-1] = null;
@@ -96,4 +104,22 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         }
     }
 
+    public Node<T,S> getNodeByArrayIndex(int index){
+        if (index >= count || index < 0){
+            throw new IndexOutOfBoundsException();
+        }
+        return queue[index];
+    }
+
+    public Node<T,S> getNodeByPriorityIndex(int index){
+        if (index >= count || index < 0){
+            throw new IndexOutOfBoundsException();
+        }
+        WaitingPriorityQueue<T,S> queueClone = new WaitingPriorityQueue<>(queue,count,heapDirection);
+        Node<T,S> temp = null;
+        for (int i = 0; i < index; i++){
+            temp = queueClone.dequeue();
+        }
+        return temp;
+    }
 }

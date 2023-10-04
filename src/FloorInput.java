@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class FloorInput extends Input{
-    private final int direction; //-1 for down, 1 for up, 0 when no direction
+    private final int direction; //-1 for down, 1 for up
     private InputPriority[] priorities;
     private int[] liftQueueIndexes;
 
@@ -37,7 +37,7 @@ public class FloorInput extends Input{
         ArrayList<InputPriority> tempPriorities = new ArrayList<>();
 
         for (int i = 0; i < liftQueueIndexes.length; i++){
-            tempIndexes[i] = new int[]{liftQueueIndexes[i],i};
+            tempIndexes[i] = new int[]{(int) Math.ceil(Math.log10(liftQueueIndexes[i])/Math.ceil(Math.log10(2))),i};
         }
         Arrays.sort(tempIndexes, Comparator.comparing(a -> a[0]));
         int minIndex = tempIndexes[0][0];

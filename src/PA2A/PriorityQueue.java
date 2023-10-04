@@ -18,6 +18,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         Node<T,S> node = new Node<>(data, priority);
         if (queue.length == count){enlargeQueue(queue);}
         queue[count] = node;
+        node.setIndexInQueue(count);
         int curr = count;
         count++;
         while(true){
