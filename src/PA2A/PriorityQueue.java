@@ -1,5 +1,7 @@
 package PA2A;
 
+import java.util.Arrays;
+
 public class PriorityQueue<T,S extends Comparable<S>> {
     private Node<T,S>[] queue;
     private int count;
@@ -42,6 +44,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         queue[0] = queue[count-1];
         queue[0].setIndexInQueue(0);
         queue[count-1] = null;
+        count--;
         int curr = 0;
         while(true){
             int leftChild = getLeftChild(curr);
@@ -54,6 +57,8 @@ public class PriorityQueue<T,S extends Comparable<S>> {
                 break;
             }
             boolean leftChildLarger = queue[curr].comparePriority(queue[leftChild]) * heapDirection < 0;
+            System.out.println(Arrays.toString(queue));
+            System.out.println(rightChild);
             boolean rightChildLarger = queue[curr].comparePriority(queue[rightChild]) * heapDirection < 0;
             if (leftChildLarger && rightChildLarger){
                 if (queue[leftChild].comparePriority(queue[rightChild]) * heapDirection < 0){
@@ -76,8 +81,8 @@ public class PriorityQueue<T,S extends Comparable<S>> {
             }
             break;
         }
-        count--;
-        if (queue.length > 4 && count == queue.length/4){shirnkQueue(queue);}
+        if (queue.length > 4 && count == queue.length/4){
+            shrinkQueue(queue);}
         return temp;
     }
 
@@ -93,13 +98,13 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         } else {throw new IndexOutOfBoundsException();}
     }
 
-    public void enlargeQueue(Node[] q){
+    private void enlargeQueue(Node[] q){
         Node<T,S>[] newQueue = new Node[count*2];
         if (count >= 0) System.arraycopy(q, 0, newQueue, 0, count);
         q = newQueue;
     }
 
-    public void shirnkQueue(Node[] q){
+    protected void shrinkQueue(Node[] q){
         Node<T,S>[] newQueue = new Node[count/2];
         if (count >= 0) System.arraycopy(queue, 0, newQueue, 0, count);
         q = newQueue;

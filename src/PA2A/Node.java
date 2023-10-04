@@ -31,4 +31,8 @@ public class Node<T,S extends Comparable<S>> {
     public int comparePriority(Node<T,S> node){
         return comparePriority(node.getPriority());
     }
+
+    public String toString() {
+        return String.format("data : %s, priority : %s", data.toString(), priority.toString());
+    }
 }
