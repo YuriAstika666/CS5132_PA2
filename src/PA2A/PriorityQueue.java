@@ -18,7 +18,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
 
     public Node<T,S> enqueue(T data, S priority){
         Node<T,S> node = new Node<>(data, priority);
-        if (queue.length == count){enlargeQueue(queue);}
+        if (queue.length == count){queue = enlargeQueue(queue);}
         queue[count] = node;
         node.setIndexInQueue(count);
         int curr = count;
@@ -40,6 +40,10 @@ public class PriorityQueue<T,S extends Comparable<S>> {
     }
 
     public Node<T,S> dequeue(){
+        if (count==0) {
+            System.out.println("Priority Queue is empty");
+            return null;
+        }
         Node<T,S> temp = queue[0];
         queue[0] = queue[count-1];
         queue[0].setIndexInQueue(0);
@@ -57,8 +61,6 @@ public class PriorityQueue<T,S extends Comparable<S>> {
                 break;
             }
             boolean leftChildLarger = queue[curr].comparePriority(queue[leftChild]) * heapDirection < 0;
-            System.out.println(Arrays.toString(queue));
-            System.out.println(rightChild);
             boolean rightChildLarger = queue[curr].comparePriority(queue[rightChild]) * heapDirection < 0;
             if (leftChildLarger && rightChildLarger){
                 if (queue[leftChild].comparePriority(queue[rightChild]) * heapDirection < 0){
@@ -81,8 +83,11 @@ public class PriorityQueue<T,S extends Comparable<S>> {
             }
             break;
         }
-        if (queue.length > 4 && count == queue.length/4){
-            shrinkQueue(queue);}
+        if (queue.length > 4 && count == queue.length/4) {
+            queue = shrinkQueue(queue);
+            System.out.println(queue.length);
+            System.out.println(count);
+        }
         return temp;
     }
 
@@ -98,16 +103,16 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         } else {throw new IndexOutOfBoundsException();}
     }
 
-    private void enlargeQueue(Node[] q){
+    private Node[] enlargeQueue(Node[] q){
         Node<T,S>[] newQueue = new Node[count*2];
         if (count >= 0) System.arraycopy(q, 0, newQueue, 0, count);
-        q = newQueue;
+        return newQueue;
     }
 
-    protected void shrinkQueue(Node[] q){
-        Node<T,S>[] newQueue = new Node[count/2];
-        if (count >= 0) System.arraycopy(queue, 0, newQueue, 0, count);
-        q = newQueue;
+    protected Node[] shrinkQueue(Node[] q){
+        Node<T,S>[] newQueue = new Node[count*2];
+        if (count >= 0) System.arraycopy(queue, 0, newQueue, 0, count*2);
+        return newQueue;
     }
 
     public static int getParent(int child){return Math.floorDiv(child-1,2);}

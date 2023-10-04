@@ -64,7 +64,7 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         }
         count--;
         if (count == queue.length/4){
-            shrinkQueue(queue);}
+            queue = shrinkQueue(queue);}
         return temp;
     }
 
