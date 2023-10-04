@@ -3,9 +3,9 @@ package PA2A;
 import java.util.Arrays;
 
 public class PriorityQueue<T,S extends Comparable<S>> {
-    private Node<T,S>[] queue;
-    private int count;
-    private int heapDirection;
+    protected Node<T,S>[] queue;
+    protected int count;
+    protected int heapDirection;
 
     public PriorityQueue(boolean maxHeap){
         queue = new Node[4];
@@ -85,13 +85,11 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         }
         if (queue.length > 4 && count == queue.length/4) {
             queue = shrinkQueue(queue);
-            System.out.println(queue.length);
-            System.out.println(count);
         }
         return temp;
     }
 
-    public void swap(int a, int b){
+    protected void swap(int a, int b){
         if(a >= 0 && b >= 0 && a < count && b < count){
             if (a != b){
                 Node<T,S> temp = queue[a];

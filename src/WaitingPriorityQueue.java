@@ -1,10 +1,10 @@
 import PA2A.Node;
 import PA2A.PriorityQueue;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQueue<T,S> {
-    private Node<T,S>[] queue;
-    private int count;
-    private int heapDirection;
 
     public WaitingPriorityQueue(boolean maxHeap){
         super(maxHeap);
@@ -21,7 +21,7 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
     }
 
     public WaitingPriorityQueue(WaitingPriorityQueue<T,S> queue){
-        this(queue.queue,queue.count,queue.heapDirection);
+        this(queue.queue.clone(),queue.count,queue.heapDirection);
     }
 
     public Node<T,S> remove(int index){
@@ -116,7 +116,7 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         if (index >= count || index < 0){
             throw new IndexOutOfBoundsException();
         }
-        WaitingPriorityQueue<T,S> queueClone = new WaitingPriorityQueue<>(queue,count,heapDirection);
+        WaitingPriorityQueue<T,S> queueClone = new WaitingPriorityQueue<>(this);
         Node<T,S> temp = null;
         for (int i = 0; i < index; i++){
             temp = queueClone.dequeue();
