@@ -3,15 +3,21 @@ public class LiftInput extends Input {
     private int liftQueueIndex;
     private InputPriority priority;
 
-    public LiftInput(int relatedFloor, int associatedLiftIndex){
-        super(relatedFloor);
+    public LiftInput(Operation operation, int relatedFloor, int associatedLiftIndex){
+        super(operation, relatedFloor);
         this.associatedLiftIndex = associatedLiftIndex;
         liftQueueIndex = -1;
         priority = null;
     }
 
+    public int getAssociatedLiftIndex(){return associatedLiftIndex;}
     public int getLiftQueueIndex(){return liftQueueIndex;}
     public InputPriority getInputPriority(){return priority;}
+
+    public void changePriorityAndIndex(InputPriority newPriority, int newIndex){
+        priority = newPriority;
+        liftQueueIndex = newIndex;
+    }
 
     public void trigger(int index, InputPriority priority){
         super.trigger();

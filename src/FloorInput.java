@@ -8,8 +8,8 @@ public class FloorInput extends Input{
     private InputPriority[] priorities;
     private int[] liftQueueIndexes;
 
-    public FloorInput(int relatedFloor, int direction){
-        super(relatedFloor);
+    public FloorInput(Operation operation, int relatedFloor, int direction){
+        super(operation, relatedFloor);
         this.direction = direction;
         priorities = null;
         liftQueueIndexes = null;
@@ -18,6 +18,12 @@ public class FloorInput extends Input{
     public int getDirection() {return direction;}
     public InputPriority[] getPriorities() {return priorities;}
     public int[] getLiftQueueIndexes() {return liftQueueIndexes;}
+    public int getAttemptLiftIndex() {return attemptLiftIndex;}
+
+    public void changePriorityAndIndex(int liftIndex, InputPriority newPriority, int newIndex){
+        priorities[liftIndex] = newPriority;
+        liftQueueIndexes[liftIndex] = newIndex;
+    }
 
     public void trigger(int[] indexes, InputPriority[] priorities){
         super.trigger();

@@ -1,3 +1,5 @@
+import PA2A.Node;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -22,19 +24,19 @@ public class Operation {
         lifts = new Lift[numLifts];
         liftInputQueue = new WaitingPriorityQueue[numLifts];
         for (int i = 0; i < numLifts; i++){
-            lifts[i] = new Lift(i,moving,waiting);
+            lifts[i] = new Lift(this,i,moving,waiting);
             liftInputQueue[i] = new WaitingPriorityQueue<>(false);
         }
 
         floorInputs = new FloorInput[numFloors][2];
         for (int i = 0; i < numFloors; i++){
-            floorInputs[i] = new FloorInput[]{new FloorInput(i,-1),new FloorInput(i,1)};
+            floorInputs[i] = new FloorInput[]{new FloorInput(this,i,-1),new FloorInput(this,i,1)};
         }
 
         liftInputs = new LiftInput[numLifts][numFloors];
         for (int i = 0; i < numLifts; i++){
             for (int j = 0; j < numFloors; j++){
-                liftInputs[i][j] = new LiftInput(j,i);
+                liftInputs[i][j] = new LiftInput(this,j,i);
             }
         }
     }
@@ -64,9 +66,39 @@ public class Operation {
         return liftInputQueue[liftIndex].enqueue(input,priority).getIndexInQueue();
     }
 
-    public Input assignNewInput(int liftIndex){
+    public void assignNewInput(int liftIndex){
         //dequeue -> dequeue all -> return next input
-        return null;
+        Lift lift = lifts[liftIndex];
+        WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[liftIndex];
+        Input inputCompleted = queue.dequeue().getData();
+        if (inputCompleted instanceof FloorInput){
+            FloorInput floorInputCompleted = (FloorInput) inputCompleted;
+            for (int i = 0; i < numLifts; i++){
+                if(i != liftIndex){
+                    queue.remove(floorInputCompleted.getLiftQueueIndexes()[i]);
+                }
+            }
+        }
+        inputCompleted.fulfilled();
+        if (queue.isEmpty()){
+            lift.endOperation();
+        } else {
+            Input input = getUnattemptedInput(liftIndex);
+            lift.startOperation(input);
+            input.attempt();
+        }
+    }
+
+    public boolean liftCheckChange(int liftIndex){
+        Lift lift = lifts[liftIndex];
+        Input input = getUnattemptedInput(liftIndex);
+        if (lift.getInputAttempting() == input){
+            lift.getInputAttempting().stopAttempt();
+            lift.startOperation(input);
+            input.attempt();
+            return true;
+        }
+        return false;
     }
 
     public int chooseLift(FloorInput floorInput, InputPriority[] priorities, int[] indexes){
@@ -100,8 +132,43 @@ public class Operation {
     }
 
     public void operate(){//this is what happens every (time unit)
-        for (Lift l: lifts){
-            l.move();
+        for (int i = 0; i < numLifts; i++){
+            Lift lift = lifts[i];
+            WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[i];
+            if(!queue.isEmpty() && !lift.isInMotion()){
+                Input input = getUnattemptedInput(i);
+                lift.startOperation(input);
+                input.attempt();
+            } else if (!queue.isEmpty() && lift.isInMotion()) {
+                InputPriority[] newPriorities = new InputPriority[queue.getCount()];
+                for (int j = 0; j < queue.getCount(); j++){
+                    Input input = queue.getNodeByArrayIndex(j).getData();
+                    newPriorities[j] = new InputPriority(lift,input,moving,waiting);
+                }
+                queue.priorityChange(newPriorities);
+                for (int j = 0; j < queue.getCount(); j++){
+                    Node<Input,InputPriority> node = queue.getNodeByArrayIndex(j);
+                    Input input = node.getData();
+                    if(input instanceof FloorInput){
+                        ((FloorInput) input).changePriorityAndIndex(i,node.getPriority(),node.getIndexInQueue());
+                    } else if (input instanceof LiftInput){
+                        ((LiftInput) input).changePriorityAndIndex(node.getPriority(),node.getIndexInQueue());
+                    }
+                }
+            }
         }
+        for (int i = 0; i < numLifts; i++){
+            if (lifts[i].isInMotion()){
+                lifts[i].move();
+            }
+        }
+    }
+
+    public Input getUnattemptedInput(int liftIndex){
+        WaitingPriorityQueue<Input,InputPriority> queue = new WaitingPriorityQueue<>(liftInputQueue[liftIndex]);
+        while(queue.peek().getData().isAttempting()){
+            queue.dequeue();
+        }
+        return queue.peek().getData();
     }
 }

@@ -2,6 +2,7 @@ import PA2A.Node;
 import PA2A.PriorityQueue;
 
 public class Lift {
+    private final Operation operation;
     private final int liftIndex;
     private int currentFloor;
     private int direction; // -1 = down, 0 = stay, 1 = up
@@ -10,7 +11,8 @@ public class Lift {
     private final int[] time; // use state to access
     private Input inputAttempting;
 
-    public Lift(int liftIndex, int moving, int waiting){
+    public Lift(Operation operation, int liftIndex, int moving, int waiting){
+        this.operation = operation;
         this.liftIndex = liftIndex;
         currentFloor = 1;
         direction = 0;
@@ -22,7 +24,7 @@ public class Lift {
 
     public int getLiftIndex(){return liftIndex;}
     public int getCurrentFloor(){return currentFloor;}
-    public boolean isInMotion() {return state == 0;}
+    public boolean isInMotion() {return state != 0;}
     public int getDirection(){return direction;}
     public int getState(){return state;}
     public Input getInputAttempting(){return inputAttempting;}
@@ -32,40 +34,33 @@ public class Lift {
         direction = Integer.compare(inputAttempting.getRelatedFloor(),currentFloor);
         if (direction == 0){
             state = 2;
-            timeCounter = time[state];
         } else {
             state = 1;
-            timeCounter = time[state];
         }
+        timeCounter = time[state];
     }
 
     public void endOperation(){
         direction = 0;
-        timeCounter = 0;
         state = 0;
+        timeCounter = 0;
         inputAttempting = null;
     }
 
-    public void move(int time){
-        for (int t = 0; t < time; t++){
-            move();
-        }
-    }
-
     public void move(){
-        //do something
         timeCounter--;
         if (timeCounter == 0){
-            switch (state){
-                case 0:{
-                    break;
+            switch (state) {
+                case 1 -> {
+                    currentFloor += direction;
+                    if (!operation.liftCheckChange(liftIndex)) {
+                        if (currentFloor == inputAttempting.getRelatedFloor()) {
+                            state = 2;
+                        }
+                        timeCounter = time[state];
+                    }
                 }
-                case 1:{
-                    break;
-                }
-                case 2:{
-                    break;
-                }
+                case 2 -> operation.assignNewInput(liftIndex);
             }
         }
     }

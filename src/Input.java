@@ -1,9 +1,11 @@
 public class Input {
+    private Operation operation;
     private final int relatedFloor;
     private boolean triggered;
     private boolean attempting;
 
-    public Input (int relatedFloor){
+    public Input (Operation operation, int relatedFloor){
+        this.operation = operation;
         this.relatedFloor = relatedFloor;
         triggered = false;
         attempting = false;
