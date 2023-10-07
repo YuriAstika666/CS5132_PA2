@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 public class FloorInput extends Input{
     private final int direction; //-1 for down, 1 for up
+    private int attemptLiftIndex;
     private InputPriority[] priorities;
     private int[] liftQueueIndexes;
 
@@ -18,47 +19,27 @@ public class FloorInput extends Input{
     public InputPriority[] getPriorities() {return priorities;}
     public int[] getLiftQueueIndexes() {return liftQueueIndexes;}
 
-    public int trigger(int[] indexes, InputPriority[] priorities){
+    public void trigger(int[] indexes, InputPriority[] priorities){
         super.trigger();
         liftQueueIndexes = indexes;
         this.priorities = priorities;
+    }
 
-        return chooseLift();
+    public void attempt(int liftIndex){
+        attemptLiftIndex = liftIndex;
+        super.attempt();
+    }
+    public void changeLift(int liftIndex){
+        attemptLiftIndex = liftIndex;
+    }
+    public void stopAttempt(){
+        attemptLiftIndex = -1;
+        super.stopAttempt();
     }
 
     public void fulfilled(){
         super.fulfilled();
         priorities = null;
         liftQueueIndexes = null;
-    }
-
-    public int chooseLift(){
-        int[][] tempIndexes =  new int[liftQueueIndexes.length][2];
-        ArrayList<InputPriority> tempPriorities = new ArrayList<>();
-
-        for (int i = 0; i < liftQueueIndexes.length; i++){
-            tempIndexes[i] = new int[]{(int) Math.ceil(Math.log10(liftQueueIndexes[i])/Math.ceil(Math.log10(2))),i};
-        }
-        Arrays.sort(tempIndexes, Comparator.comparing(a -> a[0]));
-        int minIndex = tempIndexes[0][0];
-        ArrayList<Integer> tempArrayIndex = new ArrayList<>();
-
-        int counter = 0;
-        while (tempIndexes[counter][0] == minIndex) {
-            tempArrayIndex.add(tempIndexes[counter][1]);
-            tempPriorities.add(priorities[tempArrayIndex.get(counter)]);
-            counter++;
-        }
-
-        int minPriority = tempPriorities.get(tempArrayIndex.get(0)).getPriorityValue();
-        int minPriorityIndex = tempArrayIndex.get(0);
-        for (int i = 1; i < tempPriorities.size(); i++){
-            if(tempPriorities.get(tempArrayIndex.get(i)).getPriorityValue() < minPriority){
-                minPriority = tempPriorities.get(tempArrayIndex.get(i)).getPriorityValue();
-                minPriorityIndex = tempArrayIndex.get(i);
-            }
-        }
-
-        return minPriorityIndex;
     }
 }

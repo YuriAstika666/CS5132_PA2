@@ -1,9 +1,11 @@
 public class LiftInput extends Input {
+    private final int associatedLiftIndex;
     private int liftQueueIndex;
     private InputPriority priority;
 
-    public LiftInput(int relatedFloor){
+    public LiftInput(int relatedFloor, int associatedLiftIndex){
         super(relatedFloor);
+        this.associatedLiftIndex = associatedLiftIndex;
         liftQueueIndex = -1;
         priority = null;
     }
@@ -16,6 +18,9 @@ public class LiftInput extends Input {
         liftQueueIndex = index;
         this.priority = priority;
     }
+
+    public void attempt(int liftIndex){super.attempt();}
+    public void stopAttempt(){super.stopAttempt();}
 
     public void fulfilled(){
         super.fulfilled();

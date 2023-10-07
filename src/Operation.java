@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class Operation {
     private final Lift[] lifts;
     private final WaitingPriorityQueue<Input,InputPriority>[] liftInputQueue;
@@ -24,13 +28,13 @@ public class Operation {
 
         floorInputs = new FloorInput[numFloors][2];
         for (int i = 0; i < numFloors; i++){
-            floorInputs[i] = new FloorInput[]{new FloorInput(i+1,-1),new FloorInput(i+1,1)};
+            floorInputs[i] = new FloorInput[]{new FloorInput(i,-1),new FloorInput(i,1)};
         }
 
         liftInputs = new LiftInput[numLifts][numFloors];
         for (int i = 0; i < numLifts; i++){
             for (int j = 0; j < numFloors; j++){
-                liftInputs[i][j] = new LiftInput(j);
+                liftInputs[i][j] = new LiftInput(j,i);
             }
         }
     }
@@ -63,5 +67,41 @@ public class Operation {
     public Input assignNewInput(int liftIndex){
         //dequeue -> dequeue all -> return next input
         return null;
+    }
+
+    public int chooseLift(FloorInput floorInput, InputPriority[] priorities, int[] indexes){
+        int[][] tempIndexes =  new int[indexes.length][2];
+        ArrayList<InputPriority> tempPriorities = new ArrayList<>();
+
+        for (int i = 0; i < indexes.length; i++){
+            tempIndexes[i] = new int[]{(int) Math.ceil(Math.log10(indexes[i])/Math.ceil(Math.log10(2))),i};
+        }
+        Arrays.sort(tempIndexes, Comparator.comparing(a -> a[0]));
+        int minIndex = tempIndexes[0][0];
+        ArrayList<Integer> tempArrayIndex = new ArrayList<>();
+
+        int counter = 0;
+        while (tempIndexes[counter][0] == minIndex) {
+            tempArrayIndex.add(tempIndexes[counter][1]);
+            tempPriorities.add(priorities[tempArrayIndex.get(counter)]);
+            counter++;
+        }
+
+        int minPriority = tempPriorities.get(tempArrayIndex.get(0)).getPriorityValue();
+        int minPriorityIndex = tempArrayIndex.get(0);
+        for (int i = 1; i < tempPriorities.size(); i++){
+            if(tempPriorities.get(tempArrayIndex.get(i)).getPriorityValue() < minPriority){
+                minPriority = tempPriorities.get(tempArrayIndex.get(i)).getPriorityValue();
+                minPriorityIndex = tempArrayIndex.get(i);
+            }
+        }
+
+        return minPriorityIndex;
+    }
+
+    public void operate(){//this is what happens every (time unit)
+        for (Lift l: lifts){
+            l.move();
+        }
     }
 }

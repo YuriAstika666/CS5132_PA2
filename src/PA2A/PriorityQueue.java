@@ -21,6 +21,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         heapDirection = originalQueue.heapDirection;
     }
 
+    public boolean isEmpty() {return count == 0;}
     public int getCount() {return count;}
     public Node<T,S>[] getQueue(){return queue;}
     public int getHeapDirection(){return heapDirection;}
