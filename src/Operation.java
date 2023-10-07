@@ -18,8 +18,8 @@ public class Operation {
         lifts = new Lift[numLifts];
         liftInputQueue = new WaitingPriorityQueue[numLifts];
         for (int i = 0; i < numLifts; i++){
-            lifts[i] = new Lift(moving,waiting);
-            liftInputQueue[i] = new WaitingPriorityQueue<Input,InputPriority>(false);
+            lifts[i] = new Lift(i,moving,waiting);
+            liftInputQueue[i] = new WaitingPriorityQueue<>(false);
         }
 
         floorInputs = new FloorInput[numFloors][2];
@@ -58,5 +58,10 @@ public class Operation {
 
     public int addInput(int liftIndex, Input input, InputPriority priority){
         return liftInputQueue[liftIndex].enqueue(input,priority).getIndexInQueue();
+    }
+
+    public Input assignNewInput(int liftIndex){
+        //dequeue -> dequeue all -> return next input
+        return null;
     }
 }

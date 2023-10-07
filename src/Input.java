@@ -1,5 +1,5 @@
 public class Input {
-    private int relatedFloor;
+    private final int relatedFloor;
     private boolean triggered;
 
     public Input (int relatedFloor){

@@ -23,50 +23,40 @@ public class InputPriority implements Comparable<InputPriority>{
     public static int calculatePriority(Lift l, Input i, int moving, int waiting){
         int inputFloor = i.getRelatedFloor();
         int liftCurrentFloor = l.getCurrentFloor();
-        int liftTargetFloor = l.getTarget();
-        if (inputFloor == liftCurrentFloor){
-            return 0;
-        }
-        int value = 0;
+        int liftTargetFloor = l.getInputAttempting().getRelatedFloor();
+        if (inputFloor == liftCurrentFloor){return 0;}
+        int value = TD(moving,liftCurrentFloor,liftTargetFloor) + waiting + TD(moving,liftTargetFloor,inputFloor);
+        boolean priorityPoint = false;
         if (l.isInMotion()){
-            if (i instanceof FloorInput){
-               FloorInput f = (FloorInput) i;
-               if (f.getDirection() == l.getDirection()){
-                   if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0){
-                       if ((inputFloor - liftTargetFloor) + l.getTarget() > 0){
-                           value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + waiting + Math.abs(liftTargetFloor - inputFloor) * moving;
-                       } else {
-                           value = Math.abs(liftCurrentFloor - inputFloor) * moving;
-                       }
-                       value = value * 2 + 1;
-                   } else {
-                       value += (Math.abs(liftCurrentFloor - liftTargetFloor) * moving + waiting + Math.abs(liftTargetFloor - inputFloor) * moving) * 2;
-                   }
-               } else {
-                   value = (Math.abs(liftCurrentFloor - liftTargetFloor) * moving + waiting + Math.abs(liftTargetFloor - inputFloor) * moving) * 2;
-               }
-            } else {
-                if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0){
-                    if ((inputFloor - liftTargetFloor) + l.getTarget() > 0){
-                        value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + waiting + Math.abs(liftTargetFloor - inputFloor) * moving;
-                    } else {
-                        value = Math.abs(liftCurrentFloor - inputFloor) * moving;
+            if(i instanceof FloorInput){
+                FloorInput fi = (FloorInput) i;
+                if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0 && ((liftTargetFloor - inputFloor) * l.getDirection() > 0)){
+                    if(fi.getDirection() == l.getDirection()){
+                        value = TD(moving,liftCurrentFloor,inputFloor);
                     }
-                } else {
-                    value = Math.abs(liftCurrentFloor - liftTargetFloor) * moving + waiting + Math.abs(liftTargetFloor - inputFloor) * moving;
+                } else if (l.getInputAttempting() instanceof  FloorInput){
+                    if(((FloorInput) l.getInputAttempting()).getDirection() != l.getDirection() && fi.getDirection() != l.getDirection()){
+                        if ((inputFloor - liftTargetFloor) * l.getDirection() > 0){
+                            value = TD(moving,liftCurrentFloor,inputFloor);
+                            priorityPoint = true;
+                        }
+                    }
                 }
-                value = value * 2 + 1;
+            } else {
+                priorityPoint = true;
+                if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0 && ((liftTargetFloor - inputFloor) * l.getDirection() > 0)){
+                    value = TD(moving,liftCurrentFloor,inputFloor);
+                }
             }
         } else {
-            value += Math.abs(liftCurrentFloor - inputFloor) * moving;
-            if (i instanceof FloorInput){
-                value = value*2 + 1;
-            } else {
-                value *= 2;
-            }
+            value = TD(moving,liftCurrentFloor,inputFloor);
         }
-
-
+        value *= 2;
+        if (priorityPoint){value++;}
         return value;
+    }
+
+    public static int TD(int moving, int floor1, int floor2){
+        return Math.abs(floor1 - floor2) * moving;
     }
 }

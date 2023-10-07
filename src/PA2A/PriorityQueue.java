@@ -1,7 +1,5 @@
 package PA2A;
 
-import java.util.Arrays;
-
 public class PriorityQueue<T,S extends Comparable<S>> {
     protected Node<T,S>[] queue;
     protected int count;
@@ -13,8 +11,19 @@ public class PriorityQueue<T,S extends Comparable<S>> {
         heapDirection = (maxHeap) ? 1 : -1;
     }
 
+    public PriorityQueue(PriorityQueue<T,S> originalQueue){
+        Node<T,S>[] queueOriginal = originalQueue.queue;
+        queue = new Node[queueOriginal.length];
+        for (int i = 0; i < originalQueue.count; i++){
+            queue[i] = queueOriginal[i].clone();
+        }
+        count = originalQueue.count;
+        heapDirection = originalQueue.heapDirection;
+    }
+
     public int getCount() {return count;}
     public Node<T,S>[] getQueue(){return queue;}
+    public int getHeapDirection(){return heapDirection;}
 
     public Node<T,S> enqueue(T data, S priority){
         Node<T,S> node = new Node<>(data, priority);

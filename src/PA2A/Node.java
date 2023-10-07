@@ -32,6 +32,10 @@ public class Node<T,S extends Comparable<S>> {
         return comparePriority(node.getPriority());
     }
 
+    public Node<T,S> clone(){
+        return new Node<>(data,priority,indexInQueue);
+    }
+
     public String toString() {
         return String.format("data : %s, priority : %s", data.toString(), priority.toString());
     }

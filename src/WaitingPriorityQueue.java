@@ -13,15 +13,11 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         heapDirection = (maxHeap) ? 1 : -1;
     }
 
-    public WaitingPriorityQueue(Node<T,S>[] queue, int count, int heapDirection){
-        this(heapDirection == 1);
-        this.queue = queue;
-        this.count = count;
-        this.heapDirection = heapDirection;
-    }
-
     public WaitingPriorityQueue(WaitingPriorityQueue<T,S> queue){
-        this(queue.queue.clone(),queue.count,queue.heapDirection);
+        super(queue);
+        this.queue = super.getQueue();
+        this.count = super.getCount();
+        heapDirection = super.getHeapDirection();
     }
 
     public Node<T,S> remove(int index){
