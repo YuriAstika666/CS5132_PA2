@@ -15,6 +15,15 @@ public class Operation {
     private final int moving;
     private final int waiting;
 
+    public Lift[] getLifts(){return lifts;}
+    public WaitingPriorityQueue<Input, InputPriority>[] getLiftInputQueue(){return liftInputQueue;}
+    public FloorInput[][] getFloorInputs(){return floorInputs;}
+    public LiftInput[][] getLiftInputs(){return liftInputs;}
+    public int getNumLifts(){return numLifts;}
+    public int getNumFloors(){return numFloors;}
+    public int getMoving(){return moving;}
+    public int getWaiting(){return waiting;}
+
     public Operation(int numLifts, int numFloors, int moving, int waiting){
         this.numLifts = numLifts;
         this.numFloors = numFloors;
