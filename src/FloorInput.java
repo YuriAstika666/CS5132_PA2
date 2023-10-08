@@ -48,4 +48,14 @@ public class FloorInput extends Input{
         priorities = null;
         liftQueueIndexes = null;
     }
+
+    @Override
+    public String toString() { // FOR SPECIFIC USE ONLY
+        return "FloorInput{" +
+                //"direction=" + direction +
+                //", attemptLiftIndex=" + attemptLiftIndex +
+                "priorities=" + (priorities == null ? "." : priorities[0].getPriorityValue()) +
+                ", liftQueueIndexes=" + Arrays.toString(liftQueueIndexes) +
+                '}';
+    }
 }

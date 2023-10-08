@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         //testPriorityQueue();
-        //testWaitingPriorityQueue();
-        testOperation();
+        testWaitingPriorityQueue();
+        //testOperation();
         //testInputPriority();
     }
 
@@ -57,15 +57,6 @@ public class Main {
         }
         System.out.println(wpq.getCount());
 
-        //testing getNodeByPriorityIndex
-        System.out.println(wpq.getNodeByPriorityIndex(0));
-        System.out.println(wpq.getNodeByPriorityIndex(1));
-        System.out.println(wpq.getNodeByPriorityIndex(2));
-        System.out.println(wpq.getNodeByPriorityIndex(3));
-        System.out.println(wpq.getNodeByPriorityIndex(4));
-        System.out.println(wpq.getNodeByPriorityIndex(28));
-        System.out.println(wpq.getNodeByPriorityIndex(29));
-
         //testing getNodeByArrayIndex
         System.out.println(Arrays.toString(wpq.getQueue()));
         System.out.println(wpq.getNodeByArrayIndex(0));
@@ -107,7 +98,8 @@ public class Main {
     public static void displayStatus(Operation operation) {
         //System.out.println("--Current Status--");
         for (Lift lift : operation.getLifts()) System.out.printf("%-60s",lift);
-        System.out.println(Arrays.deepToString(operation.getLiftInputs()));
+        System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[0]));
+        System.out.println(operation.getFloorInputs()[10][0]);
         //System.out.println();
         //System.out.println("------------------\n");
     }
