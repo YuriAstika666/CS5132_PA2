@@ -1,6 +1,8 @@
 import PA2A.Node;
 import PA2A.PriorityQueue;
 
+import java.util.Arrays;
+
 public class Lift {
     private final Operation operation;
     private final int liftIndex;
@@ -14,7 +16,7 @@ public class Lift {
     public Lift(Operation operation, int liftIndex, int moving, int waiting){
         this.operation = operation;
         this.liftIndex = liftIndex;
-        currentFloor = 1;
+        currentFloor = 0;
         direction = 0;
         timeCounter = 0;
         state = 0;
@@ -65,5 +67,8 @@ public class Lift {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("Lift %d, Floor %d, %s, State %s, Time Left: %d", liftIndex, currentFloor, (direction == -1 ? "Moving Down" : (direction == 0 ? "Not Moving" : "Moving Up")), (state == 0 ? "Idle" : (state == 1 ? "Moving" : "Waiting")), timeCounter);
+    }
 }

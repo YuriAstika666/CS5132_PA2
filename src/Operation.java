@@ -93,8 +93,11 @@ public class Operation {
             lift.endOperation();
         } else {
             Input input = getUnattemptedInput(liftIndex);
-            lift.startOperation(input);
-            input.attempt();
+            if(input == null) lift.endOperation();
+            else {
+                lift.startOperation(input);
+                input.attempt();
+            }
         }
     }
 
@@ -146,8 +149,11 @@ public class Operation {
             WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[i];
             if(!queue.isEmpty() && !lift.isInMotion()){
                 Input input = getUnattemptedInput(i);
-                lift.startOperation(input);
-                input.attempt();
+                if(input == null) lift.endOperation();
+                else {
+                    lift.startOperation(input);
+                    input.attempt();
+                }
             } else if (!queue.isEmpty() && lift.isInMotion()) {
                 InputPriority[] newPriorities = new InputPriority[queue.getCount()];
                 for (int j = 0; j < queue.getCount(); j++){
@@ -175,9 +181,10 @@ public class Operation {
 
     public Input getUnattemptedInput(int liftIndex){
         WaitingPriorityQueue<Input,InputPriority> queue = new WaitingPriorityQueue<>(liftInputQueue[liftIndex]);
-        while(queue.peek().getData().isAttempting()){
+        while(!queue.isEmpty() && queue.peek().getData().isAttempting()){
             queue.dequeue();
         }
+        if (queue.isEmpty()) return null;
         return queue.peek().getData();
     }
 }

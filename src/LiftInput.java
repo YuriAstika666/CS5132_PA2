@@ -33,4 +33,9 @@ public class LiftInput extends Input {
         liftQueueIndex = -1;
         this.priority = null;
     }
+
+    @Override
+    public String toString() {
+        return "{" + associatedLiftIndex + "," + liftQueueIndex + "," + (priority == null ? "." : priority.getPriorityValue())  + '}';
+    }
 }

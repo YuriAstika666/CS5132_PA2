@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        // testPriorityQueue();
-        testWaitingPriorityQueue();
+        //testPriorityQueue();
+        //testWaitingPriorityQueue();
+        testOperation();
+        //testInputPriority();
     }
 
     public static void testPriorityQueue() {
@@ -81,5 +83,47 @@ public class Main {
         System.out.println(Arrays.toString(wpq.getQueue()));
         wpq.priorityChange(new Integer[]{25,22,29,3,2,17,16,19,28,13,14,10,9,23,27,6,7,21,8,1,20,4,24,18,5,15,12,26,11});
         System.out.println(Arrays.toString(wpq.getQueue()));
+    }
+
+    public static void testOperation() {
+        Operation operation = new Operation(1,11,2,1);
+        operation.triggerFloorInput(4,1);
+        displayStatus(operation);
+        for(int i = 0; i < 10; i++) {
+            operation.operate();
+            displayStatus(operation);
+        }
+        operation.triggerLiftInput(0,6);
+        operation.triggerLiftInput(0,5);
+        operation.triggerLiftInput(0,3);
+        operation.triggerFloorInput(10,-1);
+        //operation.triggerLiftInput(0,29);
+        for(int i = 0; i < 30; i++) {
+            operation.operate();
+            displayStatus(operation);
+        }
+    }
+
+    public static void displayStatus(Operation operation) {
+        //System.out.println("--Current Status--");
+        for (Lift lift : operation.getLifts()) System.out.printf("%-60s",lift);
+        System.out.println(Arrays.deepToString(operation.getLiftInputs()));
+        //System.out.println();
+        //System.out.println("------------------\n");
+    }
+
+    public static void testInputPriority() {
+        InputPriority[] priorities = new InputPriority[10];
+        for (int i = 0; i < 10; i++) priorities[i] = new InputPriority(i);
+        System.out.println("       0  1  2  3  4  5  6  7  8  9");
+        System.out.println("-----------------------------------");
+        //int[][] comparisons = new int[10][10];
+        for (int i = 0; i < 10; i++) {
+            System.out.print(i+":   ");
+            for (int j = 0; j < 10; j++) {
+                System.out.printf("%3d",priorities[i].compareTo(priorities[j]));
+            }
+            System.out.println();
+        }
     }
 }
