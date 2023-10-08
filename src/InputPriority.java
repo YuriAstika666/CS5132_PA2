@@ -23,9 +23,9 @@ public class InputPriority implements Comparable<InputPriority>{
     public static int calculatePriority(Lift l, Input i, int moving, int waiting){
         int inputFloor = i.getRelatedFloor();
         int liftCurrentFloor = l.getCurrentFloor();
-        if (inputFloor == liftCurrentFloor){return 0;}
-        boolean priorityPoint = false;
         int value;
+        if (inputFloor == liftCurrentFloor){return (i instanceof LiftInput) ? 1 : 0;}
+        boolean priorityPoint = false;
         if (l.isInMotion()){
             int liftTargetFloor = l.getInputAttempting().getRelatedFloor();
             value = TD(moving,liftCurrentFloor,liftTargetFloor) + waiting + TD(moving,liftTargetFloor,inputFloor);
@@ -51,6 +51,7 @@ public class InputPriority implements Comparable<InputPriority>{
             }
         } else {
             value = TD(moving,liftCurrentFloor,inputFloor);
+            priorityPoint = i instanceof LiftInput;
         }
         value *= 2;
         if (priorityPoint){value++;}
