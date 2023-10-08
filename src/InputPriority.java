@@ -15,7 +15,7 @@ public class InputPriority implements Comparable<InputPriority>{
 
     @Override
     public int compareTo(InputPriority priority){
-        if (priority.priorityValue % 2 == priorityValue % 2){return Integer.compare(priorityValue/2,priority.priorityValue/2);}
+        if (priority.priorityValue % 2 == priorityValue % 2){return Integer.compare(priority.priorityValue/2,priorityValue/2);}
         else if (priority.priorityValue % 2 == 1){return -1;}
         else {return 1;}
     }

@@ -20,6 +20,10 @@ public class FloorInput extends Input{
     public int[] getLiftQueueIndexes() {return liftQueueIndexes;}
     public int getAttemptLiftIndex() {return attemptLiftIndex;}
 
+    public void changeIndex(int liftIndex, int newIndex){
+        liftQueueIndexes[liftIndex] = newIndex;
+    }
+
     public void changePriorityAndIndex(int liftIndex, InputPriority newPriority, int newIndex){
         priorities[liftIndex] = newPriority;
         liftQueueIndexes[liftIndex] = newIndex;
@@ -47,5 +51,14 @@ public class FloorInput extends Input{
         super.fulfilled();
         priorities = null;
         liftQueueIndexes = null;
+    }
+
+    public String toString() { // FOR SPECIFIC USE ONLY
+        return "FloorInput{" +
+                //"direction=" + direction +
+                //", attemptLiftIndex=" + attemptLiftIndex +
+                "priorities=" + (priorities == null ? "." : priorities[0].getPriorityValue()) +
+                ", liftQueueIndexes=" + Arrays.toString(liftQueueIndexes) +
+                '}';
     }
 }

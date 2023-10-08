@@ -105,9 +105,9 @@ public class PriorityQueue<T,S extends Comparable<S>> {
                 Node<T,S> temp = queue[a];
                 queue[a] = queue[b];
                 queue[b] = temp;
-                queue[a].setIndexInQueue(a);
-                queue[b].setIndexInQueue(b);
             }
+            queue[a].setIndexInQueue(a);
+            queue[b].setIndexInQueue(b);
         } else {throw new IndexOutOfBoundsException();}
     }
 

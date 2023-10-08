@@ -34,7 +34,7 @@ public class Operation {
         liftInputQueue = new WaitingPriorityQueue[numLifts];
         for (int i = 0; i < numLifts; i++){
             lifts[i] = new Lift(this,i,moving,waiting);
-            liftInputQueue[i] = new WaitingPriorityQueue<>(false);
+            liftInputQueue[i] = new WaitingPriorityQueue<>(true);
         }
 
         floorInputs = new FloorInput[numFloors][2];
@@ -72,7 +72,19 @@ public class Operation {
     }
 
     public int addInput(int liftIndex, Input input, InputPriority priority){
-        return liftInputQueue[liftIndex].enqueue(input,priority).getIndexInQueue();
+        WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[liftIndex];
+        int index = queue.enqueue(input,priority).getIndexInQueue();
+        for (int i = 0; i < queue.getCount(); i++){
+            if (i != index) {
+                Node<Input, InputPriority> node = queue.getNodeByArrayIndex(i);
+                if (node.getData() instanceof FloorInput) {
+                    ((FloorInput) node.getData()).changeIndex(liftIndex,node.getIndexInQueue());
+                } else {
+                    ((LiftInput) node.getData()).changeIndex(node.getIndexInQueue());
+                }
+            }
+        }
+        return index;
     }
 
     public void assignNewInput(int liftIndex){
@@ -84,7 +96,7 @@ public class Operation {
             FloorInput floorInputCompleted = (FloorInput) inputCompleted;
             for (int i = 0; i < numLifts; i++){
                 if(i != liftIndex){
-                    queue.remove(floorInputCompleted.getLiftQueueIndexes()[i]);
+                    liftInputQueue[i].remove(floorInputCompleted.getLiftQueueIndexes()[i]);
                 }
             }
         }

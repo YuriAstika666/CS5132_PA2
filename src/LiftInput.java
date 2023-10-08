@@ -14,6 +14,9 @@ public class LiftInput extends Input {
     public int getLiftQueueIndex(){return liftQueueIndex;}
     public InputPriority getInputPriority(){return priority;}
 
+    public void changeIndex(int newIndex){
+        liftQueueIndex = newIndex;
+    }
     public void changePriorityAndIndex(InputPriority newPriority, int newIndex){
         priority = newPriority;
         liftQueueIndex = newIndex;

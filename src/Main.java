@@ -93,11 +93,17 @@ public class Main {
             operation.operate();
             displayStatus(operation);
         }
+        System.out.println("Adding Inputs:");
         operation.triggerLiftInput(0,6);
+        displayStatus(operation);
         operation.triggerLiftInput(0,5);
+        displayStatus(operation);
         operation.triggerLiftInput(0,3);
+        displayStatus(operation);
         operation.triggerFloorInput(10,-1);
+        displayStatus(operation);
         //operation.triggerLiftInput(0,29);
+        System.out.println("Post inputs");
         for(int i = 0; i < 30; i++) {
             operation.operate();
             displayStatus(operation);
@@ -107,7 +113,9 @@ public class Main {
     public static void displayStatus(Operation operation) {
         //System.out.println("--Current Status--");
         for (Lift lift : operation.getLifts()) System.out.printf("%-60s",lift);
-        System.out.println(Arrays.deepToString(operation.getLiftInputs()));
+        System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[0]));
+        //System.out.println();
+        System.out.println(operation.getFloorInputs()[10][0]);
         //System.out.println();
         //System.out.println("------------------\n");
     }

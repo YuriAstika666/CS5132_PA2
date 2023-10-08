@@ -69,6 +69,6 @@ public class Lift {
 
     @Override
     public String toString() {
-        return String.format("Lift %d, Floor %d, %s, State %s, Time Left: %d", liftIndex, currentFloor, (direction == -1 ? "Moving Down" : (direction == 0 ? "Not Moving" : "Moving Up")), (state == 0 ? "Idle" : (state == 1 ? "Moving" : "Waiting")), timeCounter);
+        return String.format("Lift %d, Floor %d, %s, State %s, Time Left: %d, Target Floor: %d ", liftIndex, currentFloor, (direction == -1 ? "Moving Down" : (direction == 0 ? "Not Moving" : "Moving Up")), (state == 0 ? "Idle" : (state == 1 ? "Moving" : "Waiting")), timeCounter, (inputAttempting == null? 0 : inputAttempting.getRelatedFloor()));
     }
 }
