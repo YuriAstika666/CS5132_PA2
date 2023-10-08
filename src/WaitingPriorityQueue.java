@@ -107,16 +107,4 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
         }
         return queue[index];
     }
-
-    public Node<T,S> getNodeByPriorityIndex(int index){
-        if (index >= count || index < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        WaitingPriorityQueue<T,S> queueClone = new WaitingPriorityQueue<>(this);
-        Node<T,S> temp = null;
-        for (int i = 0; i < index; i++){
-            temp = queueClone.dequeue();
-        }
-        return temp;
-    }
 }

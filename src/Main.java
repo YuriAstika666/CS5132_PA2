@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         //testPriorityQueue();
-        //testWaitingPriorityQueue();
-        testOperation();
+        testWaitingPriorityQueue();
+        //testOperation();
         //testInputPriority();
     }
 
@@ -56,15 +56,6 @@ public class Main {
             wpq.enqueue(i,i*(30-i));
         }
         System.out.println(wpq.getCount());
-
-        //testing getNodeByPriorityIndex
-        System.out.println(wpq.getNodeByPriorityIndex(0));
-        System.out.println(wpq.getNodeByPriorityIndex(1));
-        System.out.println(wpq.getNodeByPriorityIndex(2));
-        System.out.println(wpq.getNodeByPriorityIndex(3));
-        System.out.println(wpq.getNodeByPriorityIndex(4));
-        System.out.println(wpq.getNodeByPriorityIndex(28));
-        System.out.println(wpq.getNodeByPriorityIndex(29));
 
         //testing getNodeByArrayIndex
         System.out.println(Arrays.toString(wpq.getQueue()));
