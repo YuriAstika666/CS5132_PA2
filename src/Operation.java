@@ -108,7 +108,8 @@ public class Operation {
             if(input == null) lift.endOperation();
             else {
                 lift.startOperation(input);
-                input.attempt();
+                if (input instanceof FloorInput){((FloorInput) input).attempt(liftIndex);}
+                else{input.attempt();}
             }
         }
     }
@@ -119,7 +120,8 @@ public class Operation {
         if (lift.getInputAttempting() == input){
             lift.getInputAttempting().stopAttempt();
             lift.startOperation(input);
-            input.attempt();
+            if (input instanceof FloorInput){((FloorInput) input).attempt(liftIndex);}
+            else{input.attempt();}
             return true;
         }
         return false;
@@ -164,7 +166,8 @@ public class Operation {
                 if(input == null) lift.endOperation();
                 else {
                     lift.startOperation(input);
-                    input.attempt();
+                    if (input instanceof FloorInput){((FloorInput) input).attempt(i);}
+                    else{input.attempt();}
                 }
             } else if (!queue.isEmpty() && lift.isInMotion()) {
                 InputPriority[] newPriorities = new InputPriority[queue.getCount()];
