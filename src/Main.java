@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         //testPriorityQueue();
-        testWaitingPriorityQueue();
-        //testOperation();
+        //testWaitingPriorityQueue();
+        testOperation();
         //testInputPriority();
     }
 
@@ -33,7 +33,7 @@ public class Main {
 
     public static void testWaitingPriorityQueue() {
         //redo the priority queue stuff
-        WaitingPriorityQueue<Integer, Integer> wpq = new WaitingPriorityQueue<>(true);
+        WaitingPriorityQueue<Integer, Integer> wpq = new WaitingPriorityQueue<>(false);
         System.out.println(wpq.peek());
         wpq.enqueue(1,1);
         System.out.println(wpq.peek());
@@ -77,25 +77,29 @@ public class Main {
     }
 
     public static void testOperation() {
-        Operation operation = new Operation(1,11,2,1);
+        Operation operation = new Operation(1,30,2,1);
         operation.triggerFloorInput(4,1);
-        displayStatus(operation);
+        /*displayStatus(operation);
         for(int i = 0; i < 10; i++) {
             operation.operate();
             displayStatus(operation);
-        }
+        }*/
         System.out.println("Adding Inputs:");
-        operation.triggerLiftInput(0,6);
+        /*operation.triggerLiftInput(0,6);
         displayStatus(operation);
         operation.triggerLiftInput(0,5);
         displayStatus(operation);
         operation.triggerLiftInput(0,3);
+        displayStatus(operation);*/
+        operation.triggerFloorInput(29,-1);
         displayStatus(operation);
-        operation.triggerFloorInput(10,-1);
+        operation.triggerFloorInput(8,-1);
+        displayStatus(operation);
+        operation.triggerFloorInput(13,-1);
         displayStatus(operation);
         //operation.triggerLiftInput(0,29);
         System.out.println("Post inputs");
-        for(int i = 0; i < 30; i++) {
+        for(int i = 0; i < 69; i++) {
             operation.operate();
             displayStatus(operation);
         }
@@ -103,11 +107,13 @@ public class Main {
 
     public static void displayStatus(Operation operation) {
         //System.out.println("--Current Status--");
-        for (Lift lift : operation.getLifts()) System.out.printf("%-60s",lift);
+        for (Lift lift : operation.getLifts()) System.out.printf("%-80s",lift);
         System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[0]));
         //System.out.println();
-        System.out.println(operation.getFloorInputs()[10][0]);
-        //System.out.println();
+        System.out.print(operation.getFloorInputs()[8][0]);
+        System.out.print(operation.getFloorInputs()[13][0]);
+        System.out.print(operation.getFloorInputs()[29][0]);
+        System.out.println();
         //System.out.println("------------------\n");
     }
 
