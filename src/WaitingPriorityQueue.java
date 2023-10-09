@@ -21,10 +21,12 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
     }
 
     public Node<T,S> remove(int index){
+        System.out.print("Before: " + Arrays.toString(queue) + ", ");
         Node<T,S> temp = getNodeByArrayIndex(index);
         queue[index] = queue[count-1];
         queue[index].setIndexInQueue(index);
         queue[count-1] = null;
+        count--;
         int curr = index;
         while(true){
             int leftChild = getLeftChild(curr);
@@ -58,9 +60,9 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
             }
             break;
         }
-        count--;
-        if (count == queue.length/4){
+        if (queue.length > 4 && count <= queue.length/4){
             queue = shrinkQueue(queue);}
+        System.out.print("After: " + Arrays.toString(queue));
         return temp;
     }
 

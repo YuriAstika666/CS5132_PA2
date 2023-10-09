@@ -91,15 +91,18 @@ public class Operation {
         //dequeue -> dequeue all -> return next input
         Lift lift = lifts[liftIndex];
         WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[liftIndex];
-        Input inputCompleted = queue.dequeue().getData();
+        Input inputCompleted = lift.getInputAttempting();
+        System.out.print("Debug - LiftIndex: " + liftIndex + ", Input Attempted: " + inputCompleted + "; ");
         if (inputCompleted instanceof FloorInput){
             FloorInput floorInputCompleted = (FloorInput) inputCompleted;
             for (int i = 0; i < numLifts; i++){
-                if(i != liftIndex){
-                    liftInputQueue[i].remove(floorInputCompleted.getLiftQueueIndexes()[i]);
-                }
+                System.out.println("Debug - Operations.assignNewInput(): " + i);
+                liftInputQueue[i].remove(floorInputCompleted.getLiftQueueIndexes()[i]);
             }
+        } else if (inputCompleted instanceof LiftInput){
+            queue.remove(((LiftInput) inputCompleted).getLiftQueueIndex());
         }
+        massIndexChange();
         inputCompleted.fulfilled();
         if (queue.isEmpty()){
             lift.endOperation();
@@ -118,11 +121,16 @@ public class Operation {
         Lift lift = lifts[liftIndex];
         Input input = liftInputQueue[liftIndex].peek().getData();
         if (input != null && lift.getInputAttempting() != input){
-            lift.getInputAttempting().stopAttempt();
-            lift.startOperation(input);
-            if (input instanceof FloorInput){((FloorInput) input).attempt(liftIndex);}
-            else{input.attempt();}
-            return true;
+            if (!input.isAttempting()) {
+                lift.getInputAttempting().stopAttempt();
+                lift.startOperation(input);
+                if (input instanceof FloorInput) {
+                    ((FloorInput) input).attempt(liftIndex);
+                } else {
+                    input.attempt();
+                }
+                return true;
+            }
         }
         return false;
     }
@@ -201,5 +209,16 @@ public class Operation {
         }
         if (queue.isEmpty()) return null;
         return queue.peek().getData();
+    }
+
+    public void massIndexChange(){
+        for (int l = 0; l < numLifts; l++){
+            WaitingPriorityQueue<Input,InputPriority> queue = liftInputQueue[l];
+            for (int i = 0; i < queue.getCount(); i++){
+                Input input = queue.getNodeByArrayIndex(i).getData();
+                if (input instanceof FloorInput){((FloorInput) input).changeIndex(l,i);}
+                else {((LiftInput) input).changeIndex(i);}
+            }
+        }
     }
 }

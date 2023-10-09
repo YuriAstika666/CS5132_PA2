@@ -93,7 +93,7 @@ public class PriorityQueue<T,S extends Comparable<S>> {
             }
             break;
         }
-        if (queue.length > 4 && count == queue.length/4) {
+        if (queue.length > 4 && count <= queue.length/4) {
             queue = shrinkQueue(queue);
         }
         return temp;
