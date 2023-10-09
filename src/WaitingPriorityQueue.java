@@ -77,11 +77,11 @@ public class WaitingPriorityQueue<T,S extends Comparable<S>> extends PriorityQue
             int ref = i;
             while (ref < count) {
                 int compare = ref;
-                if (getLeftChild(ref) < count && queue[getLeftChild(ref)].getPriority().compareTo(queue[compare].getPriority()) * heapDirection < 0) {
+                if (getLeftChild(ref) < count && queue[getLeftChild(ref)].getPriority().compareTo(queue[compare].getPriority()) * heapDirection > 0) {
                     compare = getLeftChild(ref);
                 }
 
-                if (getRightChild(ref) < count && queue[getRightChild(ref)].getPriority().compareTo(queue[compare].getPriority()) * heapDirection < 0) {
+                if (getRightChild(ref) < count && queue[getRightChild(ref)].getPriority().compareTo(queue[compare].getPriority()) * heapDirection > 0) {
                     compare = getRightChild(ref);
                 }
 
