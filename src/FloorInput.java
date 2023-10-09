@@ -59,7 +59,8 @@ public class FloorInput extends Input{
                 "floor=" + getRelatedFloor() +
                 //"direction=" + direction +
                 //", attemptLiftIndex=" + attemptLiftIndex +
-                ", priorities=" + (priorities == null ? "." : priorities[0].getPriorityValue()) +
+                //", priorities=" + (priorities == null ? "." : priorities[0].getPriorityValue()) +
+                ", priorities=" + (priorities == null ? "." : Arrays.toString(priorities)) +
                 ", liftQueueIndexes=" + Arrays.toString(liftQueueIndexes) +
                 '}';
     }

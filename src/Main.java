@@ -6,7 +6,8 @@ public class Main {
     public static void main(String[] args) {
         //testPriorityQueue();
         //testWaitingPriorityQueue();
-        testOperation();
+        //testOperation();
+        testOperation2();
         //testInputPriority();
     }
 
@@ -85,12 +86,12 @@ public class Main {
             displayStatus(operation);
         }
         System.out.println("Adding Inputs:");
-        /*operation.triggerLiftInput(0,6);
+        operation.triggerLiftInput(0,6);
         displayStatus(operation);
         operation.triggerLiftInput(0,5);
         displayStatus(operation);
         operation.triggerLiftInput(0,3);
-        displayStatus(operation);*/
+        displayStatus(operation);
         operation.triggerFloorInput(29,-1);
         displayStatus(operation);
         operation.triggerFloorInput(8,-1);
@@ -105,14 +106,45 @@ public class Main {
         }
     }
 
+    public static  void testOperation2(){
+        Operation operation = new Operation(2,12,2,1);
+        System.out.println("Adding Inputs:");
+        operation.triggerLiftInput(0,6);
+        displayStatus(operation);
+        operation.triggerLiftInput(0,5);
+        displayStatus(operation);
+        operation.triggerLiftInput(0,3);
+        displayStatus(operation);
+        operation.triggerFloorInput(10,-1);
+        displayStatus(operation);
+        operation.triggerFloorInput(8,1);
+        displayStatus(operation);
+        operation.triggerFloorInput(2,-1);
+        displayStatus(operation);
+        //operation.triggerLiftInput(0,29);
+        System.out.println("Post inputs");
+        for(int i = 0; i < 69; i++) {
+            operation.operate();
+            displayStatus(operation);
+        }
+    }
+
     public static void displayStatus(Operation operation) {
         //System.out.println("--Current Status--");
-        for (Lift lift : operation.getLifts()) System.out.printf("%-80s",lift);
-        System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[0]));
+        for (int i = 0; i < operation.getNumLifts(); i++){
+            System.out.printf("%-80s",operation.getLifts()[i]);
+            System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[i]));
+            System.out.print("          ");
+        }
+        System.out.print("  " + operation.getFloorInputs()[2][0]);
+        System.out.print("  " + operation.getFloorInputs()[8][1]);
+        System.out.print("  " + operation.getFloorInputs()[10][0]);
+//        for (Lift lift : operation.getLifts()) System.out.printf("%-80s",lift);
+//        System.out.printf("%-116s", Arrays.toString(operation.getLiftInputs()[0]));
         //System.out.println();
-        System.out.print("  " + operation.getFloorInputs()[8][0]);
-        System.out.print("  " + operation.getFloorInputs()[13][0]);
-        System.out.print("  " + operation.getFloorInputs()[29][0]);
+//        System.out.print("  " + operation.getFloorInputs()[8][0]);
+//        System.out.print("  " + operation.getFloorInputs()[13][0]);
+//        System.out.print("  " + operation.getFloorInputs()[29][0]);
         System.out.println();
         //System.out.println("------------------\n");
     }

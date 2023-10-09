@@ -20,6 +20,10 @@ public class InputPriority implements Comparable<InputPriority>{
         else {return 1;}
     }
 
+    public String toString(){
+        return priorityValue + "";
+    }
+
     public static int calculatePriority(Lift l, Input i, int moving, int waiting){
         int inputFloor = i.getRelatedFloor();
         int liftCurrentFloor = l.getCurrentFloor();
