@@ -28,7 +28,7 @@ public class LiftInput extends Input {
         this.priority = priority;
     }
 
-    public void attempt(int liftIndex){super.attempt();}
+    public void attempt(){super.attempt();}
     public void stopAttempt(){super.stopAttempt();}
 
     public void fulfilled(){
