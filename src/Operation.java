@@ -116,8 +116,8 @@ public class Operation {
 
     public boolean liftCheckChange(int liftIndex){
         Lift lift = lifts[liftIndex];
-        Input input = getUnattemptedInput(liftIndex);
-        if (lift.getInputAttempting() == input){
+        Input input = liftInputQueue[liftIndex].peek().getData();
+        if (input != null && lift.getInputAttempting() != input){
             lift.getInputAttempting().stopAttempt();
             lift.startOperation(input);
             if (input instanceof FloorInput){((FloorInput) input).attempt(liftIndex);}

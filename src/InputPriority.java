@@ -35,14 +35,14 @@ public class InputPriority implements Comparable<InputPriority>{
                     if(fi.getDirection() == l.getDirection()){
                         value = TD(moving,liftCurrentFloor,inputFloor);
                     }
-                } else if (l.getInputAttempting() instanceof  FloorInput){
+                } /*else if (l.getInputAttempting() instanceof  FloorInput){
                     if(((FloorInput) l.getInputAttempting()).getDirection() != l.getDirection() && fi.getDirection() != l.getDirection()){
                         if ((inputFloor - liftTargetFloor) * l.getDirection() > 0){
                             value = TD(moving,liftCurrentFloor,inputFloor);
                             priorityPoint = true;
                         }
                     }
-                }
+                }*/
             } else {
                 priorityPoint = true;
                 if ((inputFloor - liftCurrentFloor) * l.getDirection() > 0 && ((liftTargetFloor - inputFloor) * l.getDirection() > 0)){
